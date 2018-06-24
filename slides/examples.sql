@@ -1,43 +1,31 @@
--- List all films with their title and language
+--SQL Basics 21/21: List all films with their title, rating and length
 SELECT
-  film.title,
-  language.name
+  title,
+  rating,
+  length
 FROM
-  film
-  JOIN language
-    ON film.language_id = language.language_id;
+  film;
 
---- List all rented movies titles with the customer names
+--- WITH example (SQL Operations 9/9): List all rented movies titles with the customer names
 WITH rentals AS (
     SELECT
       c.first_name,
       c.last_name,
       r.rental_id,
       i.film_id
-    FROM customer c, rental r, inventory i
-    WHERE c.customer_id = r.customer_id
-          AND r.inventory_id = i.inventory_id
+    FROM customer c
+    JOIN rental r ON c.customer_id = r.customer_id
+    JOIN inventory i ON r.inventory_id = i.inventory_id
 )
 SELECT
   f.title,
   r.first_name,
   r.last_name
-FROM film f, rentals r
-WHERE f.film_id = r.film_id
+FROM film f
+JOIN rentals r ON f.film_id = r.film_id
 ORDER BY title;
 
--- the above query with joins
-SELECT
-  f.title,
-  c.first_name,
-  c.last_name
-FROM customer c, rental r, inventory i, film f
-WHERE c.customer_id = r.customer_id
-      AND r.inventory_id = i.inventory_id
-      AND i.film_id = f.film_id
-ORDER BY title;
-
--- window example
+-- WINDOW example (SQL Functions 9/13)
 SELECT
   payment.customer_id,
   customer.first_name,
@@ -56,3 +44,13 @@ FROM
   payment
   JOIN customer ON payment.customer_id = customer.customer_id
 ORDER BY payment_date DESC;
+
+-- DATE function example (SQL Functions 10/13)
+SELECT
+  DATE_PART('year', rental_date) year_of_rental,
+  COUNT(customer_id) customers
+FROM rental
+GROUP BY 1;
+
+
+

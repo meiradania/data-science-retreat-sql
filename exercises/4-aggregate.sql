@@ -10,7 +10,7 @@ FROM payment
 GROUP BY 1, 2
 ORDER BY 3 DESC;
 
--- 2) customers who have spent more than 200
+-- 2) customers who have spent more than $200
 SELECT
   customer.first_name,
   customer.last_name,
@@ -37,27 +37,31 @@ FROM customer_totals
 WHERE total > 200
 ORDER BY total DESC;
 
--- 3) stores with more than 200 customers
-SELECT
-  store_id,
-  COUNT(customer_id)
-FROM customer
-GROUP BY 1
-HAVING COUNT(customer_id) > 200;
-
--- 4) the number of rentals from each category
+-- 3) the number of rentals from each category
 SELECT
   category.name,
-  count(*)
+  count(rental.rental_id)
 FROM rental
   JOIN inventory ON rental.inventory_id = inventory.inventory_id
   JOIN film_category ON inventory.film_id = film_category.film_id
-  JOIN film ON inventory.film_id = film.film_id
   JOIN category ON film_category.category_id = category.category_id
 GROUP BY 1
 ORDER BY 2 DESC;
 
--- EXTRA: films whose rental_rate is higher than the average rental_rate
+-- 4) the number of rentals from each film and category combination
+SELECT
+  film.title,
+  category.name,
+  count(rental.rental_id)
+FROM rental
+  JOIN inventory ON rental.inventory_id = inventory.inventory_id
+  JOIN film_category ON inventory.film_id = film_category.film_id
+  JOIN category ON film_category.category_id = category.category_id
+  JOIN film ON inventory.film_id = film.film_id
+GROUP BY 1, 2
+ORDER BY 3 DESC;
+
+-- EXTRA: films whose rental_rate is higher than the average rental_rate between all films in the DB
 SELECT
   film_id,
   title,
