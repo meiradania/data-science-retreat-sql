@@ -4,11 +4,14 @@
 SELECT
   customer.first_name,
   customer.last_name,
-  SUM(amount)
+  SUM(amount) as total_payment_amount
 FROM payment
-  JOIN customer ON payment.customer_id = customer.customer_id
+  JOIN customer
+    ON payment.customer_id = customer.customer_id
 GROUP BY 1, 2
-ORDER BY 3 DESC;
+ORDER BY total_payment_amount DESC;
+
+
 
 -- 2) customers who have spent more than $200
 SELECT
@@ -36,6 +39,12 @@ FROM customer_totals
   JOIN customer ON customer_totals.customer_id = customer.customer_id
 WHERE total > 200
 ORDER BY total DESC;
+
+
+
+
+
+
 
 -- 3) the number of rentals from each category
 SELECT
@@ -69,6 +78,39 @@ SELECT
 FROM
   film
 WHERE
-  rental_rate > (SELECT AVG(rental_rate)
-                 FROM film);
+  rental_rate >
+  (
+    SELECT AVG(rental_rate)
+    FROM film
+  );
+
+with average as (
+
+  select
+
+    avg(rental_rate) as average_rental_rate
+
+  from film
+
+)
+
+select distinct
+
+  film.title,
+
+  film.rental_rate
+
+from
+
+  film
+
+  cross join
+
+  average
+
+where
+
+  rental_rate > average.average_rental_rate
+
+order by 2 desc;
 

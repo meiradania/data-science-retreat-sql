@@ -16,7 +16,7 @@ WITH transactions AS (
       JOIN inventory ON rental.inventory_id = inventory.inventory_id
       JOIN film ON inventory.film_id = film.film_id
     WHERE rental.return_date IS NOT NULL
-    GROUP BY 1, 2, 3, 4, 5
+    LIMIT 1
 
 )
 SELECT *
@@ -40,28 +40,29 @@ WITH customer_totals AS (
 )
 SELECT *
 FROM customer_totals
-WHERE decile = 1;
+WHERE decile <= 5;
 
 -- 3) Find the most rented film in each category.
 WITH category_rank AS (
     SELECT
-      category.name AS category,
+      category.name           AS category,
       film.title,
       DENSE_RANK()
       OVER (
         PARTITION BY category.name
         ORDER BY count(rental.rental_id) DESC )
-                    AS rank_in_category,
-      count(*)      AS number_of_rentals
+                              AS rank_in_category,
+      count(rental.rental_id) AS number_of_rentals
     FROM rental
       JOIN inventory ON rental.inventory_id = inventory.inventory_id
       JOIN film_category ON inventory.film_id = film_category.film_id
       JOIN category ON film_category.category_id = category.category_id
       JOIN film ON inventory.film_id = film.film_id
     GROUP BY 1, 2
-
 )
 SELECT *
 FROM category_rank
 WHERE rank_in_category = 1
-ORDER BY category, number_of_rentals DESC;
+ORDER BY
+  category,
+  number_of_rentals DESC;

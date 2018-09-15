@@ -22,7 +22,7 @@ FROM
   customer
 WHERE
   EXISTS(
-      SELECT 1
+      SELECT 33
       FROM
         payment
       WHERE
