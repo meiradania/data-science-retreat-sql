@@ -1,6 +1,6 @@
-# Data Science Retreat SQL
+# SQL Crash Course
 
-This is the course repository with slides, exercises, solutions and support material.
+This repo has slides, exercises, solutions and support material for the SQL crash course at [Data Science Retreat](http://datascienceretreat.com/)
 
 * Examples and exercises are based on [PostgreSQL](https://www.postgresql.org/) and the [DVD Rental DB](https://github.com/robconery/dvdrental)
 * [DataGrip](https://www.jetbrains.com/datagrip/) is the recommended GUI (trial version available for 30 days)
