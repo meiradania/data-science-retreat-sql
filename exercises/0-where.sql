@@ -2,7 +2,7 @@
 SELECT f.title
 FROM film f
 WHERE f.rating = 'R'
-      AND f.length <= 60;
+      AND f.length <= 60
 
 
 -- EXTRA: Order the list of films above by length - from longer to shorter.
@@ -10,4 +10,4 @@ SELECT f.title
 FROM film f
 WHERE f.rating = 'R'
       AND f.length <= 60
-ORDER BY f.length DESC;
+ORDER BY f.title ASC;

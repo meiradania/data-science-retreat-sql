@@ -2,6 +2,7 @@
 
 -- 1) List all film titles with their actors’ names.
 SELECT
+f.film_id,
   f.title as film_title,
   actor.first_name,
   actor.actor_id,
@@ -32,8 +33,8 @@ FROM
     ON inventory.film_id = film.film_id
   JOIN rental
       ON rental.inventory_id = inventory.inventory_id
-      AND DATE_TRUNC('day',return_date) = '2005-05-27';
-
+  --    AND DATE_TRUNC('day',return_date) = '2005-05-27';
+  and date(return_date)  = '2005-05-27'
 
 select return_date, DATE_TRUNC('hour',return_date), DATE_PART('hour',return_date)
   from rental

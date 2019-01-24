@@ -4,7 +4,17 @@ SELECT
   rating,
   length
 FROM
-  film;
+  film
+
+
+
+
+
+
+
+
+
+  ;
 
 --- WITH example (SQL Operations 9/9): List all rented movies titles with the customer names
 WITH rentals AS (
@@ -26,6 +36,7 @@ JOIN rentals r ON f.film_id = r.film_id
 ORDER BY title;
 
 -- WINDOW example (SQL Functions 9/13)
+with tb as (
 SELECT
   payment.customer_id,
   customer.first_name,
@@ -39,11 +50,17 @@ SELECT
     ORDER BY payment_date DESC ),
   dense_rank()
   OVER (
-    ORDER BY payment_date DESC )
+    ORDER BY payment_date DESC ),
+    NTILE(10) OVER (
+    ORDER BY payment_date DESC ) decile
 FROM
   payment
   JOIN customer ON payment.customer_id = customer.customer_id
-ORDER BY payment_date DESC;
+ORDER BY payment_date DESC
+)
+select count(*), decile
+from tb
+group by decile
 
 -- DATE function example (SQL Functions 10/13)
 SELECT

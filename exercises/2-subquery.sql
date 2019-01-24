@@ -9,8 +9,9 @@ FROM
 WHERE
   customer_id IN (
     SELECT customer_id
-    FROM rental
-    WHERE CAST(return_date AS DATE) = '2005-05-27'
+    FROM payment
+    --rental
+    --WHERE CAST(return_date AS DATE) = '2005-05-27'
   );
 
 -- 2) names of customers who have made a payment
@@ -22,7 +23,7 @@ FROM
   customer
 WHERE
   EXISTS(
-      SELECT 33
+      SELECT 777
       FROM
         payment
       WHERE
@@ -32,6 +33,7 @@ WHERE
 -- 2b) with a JOIN
 SELECT
   DISTINCT
+  payment.customer_id,
   first_name,
   last_name
 FROM

@@ -12,7 +12,8 @@ SELECT
   customer.last_name
 FROM
   transactions
-  JOIN customer on transactions.customer_id = customer.customer_id;
+  JOIN customer
+  on transactions.customer_id = customer.customer_id;
 
 
 WITH transactions AS (
